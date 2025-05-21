@@ -1,5 +1,4 @@
 .env
 tweet_pdfs/
-selenium-twitter-scraper/
 __pycache__/
 *.pyc

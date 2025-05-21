@@ -1,4 +1,5 @@
 .env
 tweet_pdfs/
 __pycache__/
+login_screenshots/
 *.pyc

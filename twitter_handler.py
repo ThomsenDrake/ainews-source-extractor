@@ -93,7 +93,7 @@ def scrape_single_tweet_selenium(tweet_url: str):
             mail=twitter_email,
             username=twitter_username, # This is the @handle for login
             password=twitter_password,
-            headlessState='yes', 
+            headlessState='no', # Changed to 'no' for debugging
             max_tweets=1, # We only want one tweet
             scrape_query=tweet_url, # Use the tweet URL as a search query
             scrape_latest=True # Try to get the latest, should be the tweet itself
@@ -116,39 +116,36 @@ def scrape_single_tweet_selenium(tweet_url: str):
 
         if scraper_instance.interrupted:
             print("Selenium: Scraping was interrupted.")
-            scraper_instance.driver.quit()
-            return None, None
+            if hasattr(scraper_instance, 'driver'):
+                scraper_instance.driver.quit()
+            return None, None # Or handle as appropriate
 
         # After scraping, the data should be in scraper_instance.data
         # This list likely contains Tweet objects or dictionaries.
         if scraper_instance.data:
-            # Assuming the first item is our target tweet, as max_tweets=1 and query is specific.
-            # The structure of items in self.data needs to be confirmed.
-            # If it's a list of Tweet objects:
-            raw_tweet_data = scraper_instance.data[0] # Get the first (and hopefully only) tweet
-
-            # We need a way to get text and images from this raw_tweet_data
-            # This depends on the structure of the Tweet class in the selenium scraper
-            if isinstance(raw_tweet_data, Tweet): # If it's an instance of the Tweet class
-                text_content, image_urls = extract_data_from_tweet_object(raw_tweet_data)
-            elif isinstance(raw_tweet_data, dict): # If it's a dictionary
-                # Adapt based on dictionary keys (e.g., raw_tweet_data.get('text'), raw_tweet_data.get('images'))
-                text_content = raw_tweet_data.get('content', "Could not extract tweet text.")
-                image_urls = raw_tweet_data.get('photos', []) # Assuming 'photos' is a list of URLs
-                # Add more robust extraction based on actual dict structure
-            else:
-                print(f"Selenium: Unknown data type for tweet: {type(raw_tweet_data)}")
-                scraper_instance.driver.quit()
-                return None, None
-
-            print(f"Selenium: Successfully scraped content for {tweet_url}")
-            scraper_instance.driver.quit()
-            return text_content, image_urls
+            raw_tweet_data = scraper_instance.data[0] # Assuming the first item is our tweet
+            print("---------- RAW TWEET DATA ----------")
+            print(raw_tweet_data)
+            print(type(raw_tweet_data))
+            # Try to print attributes if it's an object
+            if hasattr(raw_tweet_data, '__dict__'):
+                print("---------- RAW TWEET DATA (ATTRIBUTES) ----------")
+                for attr, value in raw_tweet_data.__dict__.items():
+                    print(f"{attr}: {value}")
+            print("------------------------------------")
+            raise SystemExit("Stopping for inspection of raw_tweet_data.") # Stop execution here
+            # ... rest of the logic will be skipped for now
         else:
-            print(f"Selenium: No data scraped for {tweet_url}")
-            scraper_instance.driver.quit()
+            print("Selenium: No data scraped.")
+            if hasattr(scraper_instance, 'driver'):
+                scraper_instance.driver.quit()
             return None, None
 
+    except SystemExit as e: # Catch the SystemExit to allow clean script termination for inspection
+        print(e)
+        if 'scraper_instance' in locals() and hasattr(scraper_instance, 'driver'):
+            scraper_instance.driver.quit()
+        return None, None # Indicate that normal processing didn't complete
     except Exception as e:
         print(f"Selenium: An error occurred while scraping {tweet_url}: {e}")
         if 'scraper_instance' in locals() and hasattr(scraper_instance, 'driver'):

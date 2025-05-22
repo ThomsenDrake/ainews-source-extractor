@@ -1,6 +1,5 @@
 attrs==25.3.0
 beautifulsoup4==4.13.4
-bs4==0.0.2
 certifi==2025.4.26
 charset-normalizer==3.4.2
 defusedxml==0.7.1

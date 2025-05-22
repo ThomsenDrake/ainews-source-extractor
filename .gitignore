@@ -1,5 +1,6 @@
-.env
-tweet_pdfs/
 __pycache__/
-login_screenshots/
-*.pyc
+.roo/
+.vscode/
+2025*/
+.env
+NotoSans_Condensed-Regular.ttf

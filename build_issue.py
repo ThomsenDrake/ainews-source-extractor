@@ -88,20 +88,11 @@ def write_sources_file(urls, output_filepath):
 def run_tweet_scraper(tweet_urls, output_dir="tweet_markdowns"):
     """
     Executes tweet_scraper.py with the filtered Twitter/X URLs.
-    Temporarily writes tweet_urls to a file for tweet_scraper.py to read,
-    then removes it.
     """
     logging.info(f"Starting tweet scraping for {len(tweet_urls)} Twitter/X URLs...")
-    temp_tweet_urls_file = "temp_tweet_urls.txt"
     try:
-        # Write tweet_urls to a temporary file for tweet_scraper.py to read
-        with open(temp_tweet_urls_file, 'w', encoding='utf-8') as f:
-            for url in tweet_urls:
-                f.write(url + '\n')
-        
-        # Call tweet_scraper.py, passing the temporary file path
-        # Note: tweet_scraper.py's main function was refactored to accept a list directly,
-        # so we can import and call it.
+        # Call tweet_scraper.py directly with the list of URLs
+        # tweet_scraper.py's main function accepts a list of URLs to scrape.
         import tweet_scraper
         tweet_scraper.main(urls_to_scrape=tweet_urls)
         
@@ -113,10 +104,8 @@ def run_tweet_scraper(tweet_urls, output_dir="tweet_markdowns"):
         logging.error(f"Error running tweet_scraper.py: {e}")
         raise
     finally:
-        # Clean up the temporary file
-        if os.path.exists(temp_tweet_urls_file):
-            os.remove(temp_tweet_urls_file)
-            logging.debug(f"Removed temporary file: {temp_tweet_urls_file}")
+        # No temporary file to clean up in this version
+        pass
 
 
 def create_output_folder():

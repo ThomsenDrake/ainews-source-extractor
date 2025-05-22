@@ -7,7 +7,7 @@ AI News Link Scraper extracts all URLs from the most recent AI News issue (from 
 * **Folder Generation:** Creates a timestamped folder for each issue’s sources.
 * **sources.txt:** Lists all URLs from the issue, excluding `twitter.com`, `x.com`, and `discord.com`.
 * **Tweet Markdown:** Saves the full text of each quoted tweet as a separate markdown file.
-* **WebSync Ready:** `sources.txt` can be pasted directly into WebSync to auto-import into NotebookLM.
+* **WebSync Ready:** `sources.txt` can be pasted directly into the [WebSync for NotebookLM](https://chromewebstore.google.com/detail/websync-full-site-importe/hjoonjdnhagnpfgifhjolheimamcafok) Chrome extension to auto-import into NotebookLM.
 
 ## Installation
 ```bash

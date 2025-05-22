@@ -1,8 +1,5 @@
-import subprocess
-import sys
 import os
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -10,25 +7,12 @@ from selenium.common.exceptions import TimeoutException, NoSuchElementException,
 import re
 import time # Added for time.sleep
 import requests # Added for downloading images
-from io import BytesIO # Added for handling image bytes
 import random # Added for exponential backoff
 
 # Constants for rate limit handling
 MAX_RETRIES = 5
 INITIAL_WAIT_TIME = 5 # seconds
 
-def install_and_import(package):
-    try:
-        __import__(package)
-    except ImportError:
-        print(f"Installing {package}...")
-        subprocess.check_call([sys.executable, "-m", "pip", "install", package])
-    finally:
-        globals()[package] = __import__(package)
-
-# Ensure necessary packages are installed
-install_and_import('selenium')
-install_and_import('requests')
 
 def read_urls_from_file(filepath):
     urls = []

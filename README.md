@@ -35,6 +35,3 @@ This will:
 
 ## Contributing
 Contributions welcome! Fork, branch, and submit a pull request.
-
-## License
-MIT License

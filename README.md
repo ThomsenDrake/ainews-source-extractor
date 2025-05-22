@@ -1,4 +1,4 @@
-# AI News Link Scraper
+# AI News Source Extractor
 
 ## Description
 AI News Link Scraper extracts all URLs from the most recent AI News issue (from news.smol.ai) and prepares them for seamless import into Google's NotebookLM. It organizes sources into a dedicated folder, separates non-social URLs into a `sources.txt`, and generates individual markdown files for quoted tweet content.
